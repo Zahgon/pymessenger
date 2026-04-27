@@ -15,7 +15,7 @@ class Element(dict):
         super(Element, self).__init__(*args, **kwargs)
 
     def to_json(self):
-        return json.dumps({k: v for k, v in self.iteritems() if k in self.__acceptable_keys})
+        pass
 
 
 class Button(dict):

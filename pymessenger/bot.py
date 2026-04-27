@@ -32,27 +32,13 @@ class Bot:
 
     @property
     def auth_args(self):
-        if not hasattr(self, '_auth_args'):
-            auth = {
-                'access_token': self.access_token
-            }
-            if self.app_secret is not None:
-                appsecret_proof = utils.generate_appsecret_proof(self.access_token, self.app_secret)
-                auth['appsecret_proof'] = appsecret_proof
-            self._auth_args = auth
-        return self._auth_args
+        pass
 
     def send_recipient(self, recipient_id, payload, notification_type=NotificationType.regular):
-        payload['recipient'] = {
-            'id': recipient_id
-        }
-        payload['notification_type'] = notification_type.value
-        return self.send_raw(payload)
+        pass
 
     def send_message(self, recipient_id, message, notification_type=NotificationType.regular):
-        return self.send_recipient(recipient_id, {
-            'message': message
-        }, notification_type)
+        pass
 
     def send_attachment(self, recipient_id, attachment_type, attachment_path,
                         notification_type=NotificationType.regular):
@@ -64,29 +50,7 @@ class Bot:
         Output:
             Response from API as <dict>
         """
-        payload = {
-            'recipient': {
-                {
-                    'id': recipient_id
-                }
-            },
-            'notification_type': notification_type,
-            'message': {
-                {
-                    'attachment': {
-                        'type': attachment_type,
-                        'payload': {}
-                    }
-                }
-            },
-            'filedata': (os.path.basename(attachment_path), open(attachment_path, 'rb'))
-        }
-        multipart_data = MultipartEncoder(payload)
-        multipart_header = {
-            'Content-Type': multipart_data.content_type
-        }
-        return requests.post(self.graph_url, data=multipart_data,
-                             params=self.auth_args, headers=multipart_header).json()
+        pass
 
     def send_attachment_url(self, recipient_id, attachment_type, attachment_url,
                             notification_type=NotificationType.regular):
@@ -98,14 +62,7 @@ class Bot:
         Output:
             Response from API as <dict>
         """
-        return self.send_message(recipient_id, {
-            'attachment': {
-                'type': attachment_type,
-                'payload': {
-                    'url': attachment_url
-                }
-            }
-        }, notification_type)
+        pass
 
     def send_text_message(self, recipient_id, message, notification_type=NotificationType.regular):
         """Send text messages to the specified recipient.
@@ -116,9 +73,7 @@ class Bot:
         Output:
             Response from API as <dict>
         """
-        return self.send_message(recipient_id, {
-            'text': message
-        }, notification_type)
+        pass
 
     def send_generic_message(self, recipient_id, elements, notification_type=NotificationType.regular):
         """Send generic messages to the specified recipient.
@@ -129,15 +84,7 @@ class Bot:
         Output:
             Response from API as <dict>
         """
-        return self.send_message(recipient_id, {
-            "attachment": {
-                "type": "template",
-                "payload": {
-                    "template_type": "generic",
-                    "elements": elements
-                }
-            }
-        }, notification_type)
+        pass
 
     def send_button_message(self, recipient_id, text, buttons, notification_type=NotificationType.regular):
         """Send text messages to the specified recipient.
@@ -149,16 +96,7 @@ class Bot:
         Output:
             Response from API as <dict>
         """
-        return self.send_message(recipient_id, {
-            "attachment": {
-                "type": "template",
-                "payload": {
-                    "template_type": "button",
-                    "text": text,
-                    "buttons": buttons
-                }
-            }
-        }, notification_type)
+        pass
 
     def send_action(self, recipient_id, action, notification_type=NotificationType.regular):
         """Send typing indicators or send read receipts to the specified recipient.
@@ -170,9 +108,7 @@ class Bot:
         Output:
             Response from API as <dict>
         """
-        return self.send_recipient(recipient_id, {
-            'sender_action': action
-        }, notification_type)
+        pass
 
     def send_image(self, recipient_id, image_path, notification_type=NotificationType.regular):
         """Send an image to the specified recipient.
@@ -184,7 +120,7 @@ class Bot:
         Output:
             Response from API as <dict>
         """
-        return self.send_attachment(recipient_id, "image", image_path, notification_type)
+        pass
 
     def send_image_url(self, recipient_id, image_url, notification_type=NotificationType.regular):
         """Send an image to specified recipient using URL.
@@ -196,7 +132,7 @@ class Bot:
         Output:
             Response from API as <dict>
         """
-        return self.send_attachment_url(recipient_id, "image", image_url, notification_type)
+        pass
 
     def send_audio(self, recipient_id, audio_path, notification_type=NotificationType.regular):
         """Send audio to the specified recipient.
@@ -208,7 +144,7 @@ class Bot:
         Output:
             Response from API as <dict>
         """
-        return self.send_attachment(recipient_id, "audio", audio_path, notification_type)
+        pass
 
     def send_audio_url(self, recipient_id, audio_url, notification_type=NotificationType.regular):
         """Send audio to specified recipient using URL.
@@ -220,7 +156,7 @@ class Bot:
         Output:
             Response from API as <dict>
         """
-        return self.send_attachment_url(recipient_id, "audio", audio_url, notification_type)
+        pass
 
     def send_video(self, recipient_id, video_path, notification_type=NotificationType.regular):
         """Send video to the specified recipient.
@@ -232,7 +168,7 @@ class Bot:
         Output:
             Response from API as <dict>
         """
-        return self.send_attachment(recipient_id, "video", video_path, notification_type)
+        pass
 
     def send_video_url(self, recipient_id, video_url, notification_type=NotificationType.regular):
         """Send video to specified recipient using URL.
@@ -244,7 +180,7 @@ class Bot:
         Output:
             Response from API as <dict>
         """
-        return self.send_attachment_url(recipient_id, "video", video_url, notification_type)
+        pass
 
     def send_file(self, recipient_id, file_path, notification_type=NotificationType.regular):
         """Send file to the specified recipient.
@@ -255,7 +191,7 @@ class Bot:
         Output:
             Response from API as <dict>
         """
-        return self.send_attachment(recipient_id, "file", file_path, notification_type)
+        pass
 
     def send_file_url(self, recipient_id, file_url, notification_type=NotificationType.regular):
         """Send file to the specified recipient.
@@ -266,7 +202,7 @@ class Bot:
         Output:
             Response from API as <dict>
         """
-        return self.send_attachment_url(recipient_id, "file", file_url, notification_type)
+        pass
 
     def get_user_info(self, recipient_id, fields=None):
         """Getting information about the user
@@ -276,32 +212,14 @@ class Bot:
         Output:
           Response from API as <dict>
         """
-        params = {}
-        if fields is not None and isinstance(fields, (list, tuple)):
-            params['fields'] = ",".join(fields)
-
-        params.update(self.auth_args)
-
-        request_endpoint = '{0}/{1}'.format(self.graph_url, recipient_id)
-        response = requests.get(request_endpoint, params=params)
-        if response.status_code == 200:
-            return response.json()
-
-        return None
+        pass
 
     def send_raw(self, payload):
-        request_endpoint = '{0}/me/messages'.format(self.graph_url)
-        response = requests.post(
-            request_endpoint,
-            params=self.auth_args,
-            json=payload
-        )
-        result = response.json()
-        return result
+        pass
 
     def _send_payload(self, payload):
         """ Deprecated, use send_raw instead """
-        return self.send_raw(payload)
+        pass
 
     def set_get_started(self, gs_obj):
         """Set a get started button shown on welcome screen for first time users
@@ -311,14 +229,7 @@ class Bot:
         Output:
           Response from API as <dict>
         """
-        request_endpoint = '{0}/me/messenger_profile'.format(self.graph_url)
-        response = requests.post(
-            request_endpoint,
-            params = self.auth_args,
-            json = gs_obj
-        )
-        result = response.json()
-        return result
+        pass
 
     def set_persistent_menu(self, pm_obj):
         """Set a persistent_menu that stays same for every user. Before you can use this, make sure to have set a get started button.
@@ -328,14 +239,7 @@ class Bot:
         Output:
           Response from API as <dict>
         """
-        request_endpoint = '{0}/me/messenger_profile'.format(self.graph_url)
-        response = requests.post(
-            request_endpoint,
-            params = self.auth_args,
-            json = pm_obj
-        )
-        result = response.json()
-        return result
+        pass
 
     def remove_get_started(self):
             """delete get started button.
@@ -343,15 +247,7 @@ class Bot:
             Output:
             Response from API as <dict>
             """
-            delete_obj = {"fields": ["get_started"]}
-            request_endpoint = '{0}/me/messenger_profile'.format(self.graph_url)
-            response = requests.delete(
-                request_endpoint,
-                params = self.auth_args,
-                json = delete_obj
-            )
-            result = response.json()
-            return result
+            pass
 
     def remove_persistent_menu(self):
             """delete persistent menu.
@@ -359,12 +255,4 @@ class Bot:
             Output:
             Response from API as <dict>
             """
-            delete_obj = {"fields": ["persistent_menu"]}
-            request_endpoint = '{0}/me/messenger_profile'.format(self.graph_url)
-            response = requests.delete(
-                request_endpoint,
-                params = self.auth_args,
-                json = delete_obj
-            )
-            result = response.json()
-            return result
+            pass
